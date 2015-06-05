@@ -394,7 +394,7 @@ var cXde = {
 			value = $('#cXde-setting-keymap').combobox('getValue');
 		}
 		if (value != "") {
-			localStorage.setItem('cXde.keymap', valye);
+			localStorage.setItem('cXde.keymap', value);
 			cXde.redefineEditors('keyMap', value);
 		}
 	},
