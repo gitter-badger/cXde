@@ -348,9 +348,7 @@ var cXde = {
 		} else if ((typeof value) == "object") {
 			value = $('#cXde-setting-php').filebox('getValue');
 		}
-		if (value != "") {
-			localStorage.setItem('cXde.php', value);
-		}
+		localStorage.setItem('cXde.php', value);
 	},
 
 	setHostSetting: function(value) {
@@ -359,9 +357,7 @@ var cXde = {
 		} else if ((typeof value) == "object") {
 			value = $('#cXde-setting-host').textbox('getValue');
 		}
-		if (value != "") {
-			localStorage.setItem('cXde.host', value);
-		}
+		localStorage.setItem('cXde.host', value);
 	},
 
 	setPortSetting: function(value) {
@@ -370,9 +366,7 @@ var cXde = {
 		} else if ((typeof value) == "object") {
 			value = $('#cXde-setting-port').numberbox('getValue');
 		}
-		if (value != "") {
-			localStorage.setItem('cXde.port', value);
-		}
+		localStorage.setItem('cXde.port', value);
 	},
 
 	setThemeSetting: function(value) {
@@ -381,10 +375,8 @@ var cXde = {
 		} else if ((typeof value) == "object") {
 			value = $('#cXde-setting-theme').combobox('getValue');
 		}
-		if (value != "") {
-			localStorage.setItem('cXde.theme', value);
-			cXde.changeTheme(value);
-		}
+		localStorage.setItem('cXde.theme', value);
+		cXde.changeTheme(value);
 	},
 
 	setKeyMapSetting: function(value) {
@@ -393,10 +385,8 @@ var cXde = {
 		} else if ((typeof value) == "object") {
 			value = $('#cXde-setting-keymap').combobox('getValue');
 		}
-		if (value != "") {
-			localStorage.setItem('cXde.keymap', value);
-			cXde.redefineEditors('keyMap', value);
-		}
+		localStorage.setItem('cXde.keymap', value);
+		cXde.redefineEditors('keyMap', value);
 	},
 
 	setActiveLineSetting: function(value) {
