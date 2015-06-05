@@ -387,15 +387,15 @@ var cXde = {
 		}
 	},
 
-	setKeyMapSetting: function(keymap) {
-		if (keymap == undefined || keymap == "") {
-			keymap = "sublime";
-		} else if ((typeof keymap) == "object") {
-			keymap = $('#cXde-setting-keymap').combobox('getValue');
+	setKeyMapSetting: function(value) {
+		if (value == undefined || value == "") {
+			value = "sublime";
+		} else if ((typeof value) == "object") {
+			value = $('#cXde-setting-keymap').combobox('getValue');
 		}
-		if (keymap != "") {
-			localStorage.setItem('cXde.keymap', keymap);
-			cXde.redefineEditors('keyMap', keymap);
+		if (value != "") {
+			localStorage.setItem('cXde.keymap', valye);
+			cXde.redefineEditors('keyMap', value);
 		}
 	},
 
