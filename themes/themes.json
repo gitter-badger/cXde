@@ -1,0 +1,13 @@
+[{
+    "id":"light",
+    "text":"Light"
+},{
+    "id":"dark",
+    "text":"Dark"
+},{
+    "id":"minimal-light",
+    "text":"Minimal Light"
+},{
+    "id":"minimal-dark",
+    "text":"Minimal Dark"
+}]

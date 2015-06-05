@@ -1,0 +1,77 @@
+<div id="cXde-settings" class="easyui-tabs" data-options="fit:true,border:false">
+    <div title="Editor">
+        <table>
+            <tr>
+                <td>Theme:</td>
+                <td><select class="easyui-combobox" data-options="required:true,onSelect:cXde.setThemeSetting" id="cXde-setting-theme"></td>
+            </tr>
+            <tr>
+                <td>Key Map:</td>
+                <td><select class="easyui-combobox" data-options="required:true,onSelect:cXde.setKeyMapSetting" id="cXde-setting-keymap"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-activeline" onchange="cXde.setActiveLineSetting(this);" type="checkbox"> <label for="cXde-setting-activeline">Highlight active line</label></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-linenumbers" onchange="cXde.setLineNumbersSetting(this);" type="checkbox"> <label for="cXde-setting-linenumbers">Enable line numbers</label></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-linewrap" onchange="cXde.setLineWrapSetting(this);" type="checkbox"> <label for="cXde-setting-linewrap">Enable line wrapping</label></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-linting" onchange="cXde.setLintingSetting(this);" type="checkbox"> <label for="cXde-setting-linting">Enable JSHint and CSS Lint</label></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-folding" onchange="cXde.setFoldingSetting(this);" type="checkbox"> <label for="cXde-setting-folding">Enable code folding</label></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-automatch" onchange="cXde.setAutoMatchSetting(this);" type="checkbox"> <label for="cXde-setting-automatch">Underline matching brackets and tags</label></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-autoclose" onchange="cXde.setAutoCloseSetting(this);" type="checkbox"> <label for="cXde-setting-autoclose">Auto close brackets and tags</label></td>
+            </tr>
+        </table>
+    </div>
+    <div title="Environment">
+        <table>
+            <tr>
+                <td colspan="2" style="text-align:center">Server changes require server restart</td>
+            </tr>
+            <tr>
+                <td>PHP:</td>
+                <td><input class="easyui-filebox" data-options="prompt:'Choose a file...',required:true,onChange:cXde.setPHPSetting" id="cXde-setting-php"></td>
+            </tr>
+            <tr>
+                <td>Host:</td>
+                <td><input class="easyui-textbox" data-options="required:true,onChange:cXde.setHostSetting" id="cXde-setting-host" type="text"></td>
+            </tr>
+            <tr>
+                <td>Port:</td>
+                <td><input class="easyui-textbox" data-options="required:true,onChange:cXde.setPortSetting" id="cXde-setting-port" type="text"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td style="font-size:12px;text-align:center;">(Use port 0 for random port)</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input id="cXde-setting-iojs" onchange="cXde.setIOjsSetting(this);" type="checkbox"> <label for="cXde-setting-iojs">Enable IO.js (runs clientside)</label></td>
+            </tr>
+        </table>
+    </div>
+    <div title="About">
+        <div id="cXde-credits">
+            <p>Created by:<br /><a href="https://github.com/baconface" target="_blank">Brad Metcalf</a></p>
+            <p>Website:<br /><a href="http://c&hearts;de.ws/" target="_blank">http://c&hearts;de.ws/</a></p>
+            <p>Source code:<br /><a href="https://github.com/baconface/cXde" target="_blank">GitHub</a> (<a href="http://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPL</a>)</p>
+            <p>Version:<br /><span id="cXde-version">0.0.0</span></p>
+        </div>
+    </div>
+</div>

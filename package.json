@@ -1,0 +1,21 @@
+{
+	"name": "cXde",
+	"description": "Nothing special. Just a thing for prototyping code.",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "4.*.*",
+		"async": "1.2.*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/baconface/cXde.git"
+	},
+	"main": "app://cXde/index.html",
+	"node-remote": "<local>",
+	"window": {
+		"frame": false,
+		"toolbar": false,
+		"transparent": true,
+		"position": "center"
+	}
+}

@@ -1,0 +1,185 @@
+@font-face {
+    font-family: 'sourcecodepro';
+    src: url(../fonts/SourceCodePro-Regular.eot);
+    src: url(../fonts/SourceCodePro-Regular.eot) format("embedded-opentype"), url(../fonts/SourceCodePro-Regular.woff) format("woff"), url(../fonts/SourceCodePro-Regular.ttf) format("truetype"), url(../fonts/SourceCodePro-Regular.svg) format("svg");
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    -webkit-user-select: none;
+}
+
+input, textarea, .selectable {
+    -webkit-user-select: text;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*, :before, :after {
+    box-sizing: inherit;
+}
+
+html {
+    font-family: "Helvetica", "Arial", "FreeSans", "Verdana", "Tahoma", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
+}
+
+body, html {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0);
+    height: 100%;
+    width: 100%;
+}
+
+.panel {
+    overflow: hidden;
+}
+
+.cXde-header {
+    -webkit-app-region: drag;
+    border-bottom: none;
+}
+
+.cXde-header .panel-title {
+    font-size: 16px;
+}
+
+.panel-tool {
+    -webkit-app-region: no-drag;
+}
+
+#cXde-window {
+    height: 100%;
+    width: 100%;
+}
+
+#cXde-toolbar {
+    padding: 3px;
+    overflow: hidden;
+}
+
+#cXde-tools {
+    float: right;
+}
+
+#cXde-settings table {
+    padding: 10px;
+    display: block;
+    margin: 0 auto;
+    font-size: inherit;
+    color: inherit;
+}
+
+#cXde-settings table td {
+    padding: 5px;
+}
+
+#cXde-credits {
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    line-height: 1.5;
+}
+
+#cXde-credits a {
+    color: inherit;
+}
+
+#cXde-settings input, #cXde-settings select {
+    width: 250px;
+}
+
+#cXde-settings input[type="checkbox"] {
+    width: auto;
+    background-color: #FFF;
+    border: 1px solid inherit;
+}
+
+.cXde-window {
+    border-radius: 5px;
+}
+
+.cXde-tool {
+    text-decoration: none;
+    padding: 5px;
+    margin: 0 2px;
+    display: inline-block;
+    opacity: .6;
+    color: inherit;
+}
+
+.cXde-tool:hover {
+    opacity: 1;
+    border-radius: 3px;
+}
+
+.CodeMirror {
+    height: auto;
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: sourcecodepro;
+}
+
+.CodeMirror input {
+    font-size: inherit;
+}
+
+.cXde-reset {
+    background-color: #FFF;
+    color: #000;
+    font: normal;
+    font-family: inherit;
+    font-size: medium;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+}
+
+.spin {
+    -webkit-animation: spin .7s infinite linear;
+}
+
+.spin:hover {
+    border-radius: 15px;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes spin {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(360deg);
+    }
+}
+
+@-ms-keyframes spin {
+    0% {
+        -ms-transform: rotate(0deg);
+    }
+    100% {
+        -ms-transform: rotate(360deg);
+    }
+}
