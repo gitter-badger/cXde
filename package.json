@@ -10,7 +10,7 @@
 		"type": "git",
 		"url": "git+https://github.com/baconface/cXde.git"
 	},
-	"main": "app://cXde/index.html",
+	"main": "index.html",
 	"node-remote": "<local>",
 	"window": {
 		"frame": false,

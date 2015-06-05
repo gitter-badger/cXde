@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="style.css"/>
 	</head>
 	<body>
-		<p><?php echo "Hello World!" ?></p>
+		<?php echo "Hello World!" ?>
 		<script src="script.js"></script>
 	</body>
 </html>

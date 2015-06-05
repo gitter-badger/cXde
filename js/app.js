@@ -45,11 +45,11 @@ var cXde = {
 			},
 			function(callback) {
 				var script = $('.CodeMirror')[1].CodeMirror.getValue();
-				fs.writeFile('preview/script', script, callback);
+				fs.writeFile('preview/script.js', script, callback);
 			},
 			function(callback) {
 				var style = $('.CodeMirror')[2].CodeMirror.getValue();
-				fs.writeFile('preview/style', style, callback);
+				fs.writeFile('preview/style.css', style, callback);
 			},
 			function(callback) {
 				if ($('#cXde-window-phpfile').is(':visible')) {
@@ -119,9 +119,9 @@ var cXde = {
 	},
 
 	refreshEditors: function() {
-		for (i = 0; i < 3; i++) {
-			$('.CodeMirror')[i].CodeMirror.refresh();
-		}
+		$('.CodeMirror').each(function() {
+			this.CodeMirror.refresh();
+		});
 	},
 
 	refreshUI: function() {
@@ -386,7 +386,7 @@ var cXde = {
 			value = $('#cXde-setting-keymap').combobox('getValue');
 		}
 		localStorage.setItem('cXde.keymap', value);
-		cXde.redefineEditors('keyMap', value);
+		cXde.setEditorOption('keyMap', value);
 	},
 
 	setActiveLineSetting: function(value) {
@@ -395,10 +395,10 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-activeline').is(':checked')) {
 			localStorage.setItem('cXde.activeline', 'true');
-			cXde.redefineEditors('styleActiveLine', true);
+			cXde.setEditorOption('styleActiveLine', true);
 		} else {
 			localStorage.setItem('cXde.activeline', 'false');
-			cXde.redefineEditors('styleActiveLine', false);
+			cXde.setEditorOption('styleActiveLine', false);
 		}
 	},
 
@@ -408,10 +408,10 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-linewrap').is(':checked')) {
 			localStorage.setItem('cXde.linewrap', 'true');
-			cXde.redefineEditors('lineWrapping', true);
+			cXde.setEditorOption('lineWrapping', true);
 		} else {
 			localStorage.setItem('cXde.linewrap', 'false');
-			cXde.redefineEditors('lineWrapping', false);
+			cXde.setEditorOption('lineWrapping', false);
 		}
 	},
 
@@ -421,12 +421,12 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-linenumbers').is(':checked')) {
 			localStorage.setItem('cXde.linenumbers', 'true');
-			cXde.redefineEditors('lineNumbers', true);
+			cXde.setEditorOption('lineNumbers', true);
 		} else {
 			localStorage.setItem('cXde.linenumbers', 'false');
-			cXde.redefineEditors('lineNumbers', false);
+			cXde.setEditorOption('lineNumbers', false);
 		}
-		cXde.redefineEditors('gutters', cXde.createGutters());
+		cXde.setEditorOption('gutters', cXde.createGutters());
 	},
 
 	setLintingSetting: function(value) {
@@ -435,12 +435,12 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-linting').is(':checked')) {
 			localStorage.setItem('cXde.linting', 'true');
-			cXde.redefineEditors('lint', true);
+			cXde.setEditorOption('lint', true);
 		} else {
 			localStorage.setItem('cXde.linting', 'false');
-			cXde.redefineEditors('lint', false);
+			cXde.setEditorOption('lint', false);
 		}
-		cXde.redefineEditors('gutters', cXde.createGutters());
+		cXde.setEditorOption('gutters', cXde.createGutters());
 	},
 
 	setFoldingSetting: function(value) {
@@ -449,12 +449,12 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-folding').is(':checked')) {
 			localStorage.setItem('cXde.folding', 'true');
-			cXde.redefineEditors('foldGutter', true);
+			cXde.setEditorOption('foldGutter', true);
 		} else {
 			localStorage.setItem('cXde.folding', 'false');
-			cXde.redefineEditors('foldGutter', false);
+			cXde.setEditorOption('foldGutter', false);
 		}
-		cXde.redefineEditors('gutters', cXde.createGutters());
+		cXde.setEditorOption('gutters', cXde.createGutters());
 	},
 
 	setAutoMatchSetting: function(value) {
@@ -463,12 +463,12 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-automatch').is(':checked')) {
 			localStorage.setItem('cXde.automatch', 'true');
-			cXde.redefineEditors('matchBrackets', true);
-			cXde.redefineEditors('matchTags', true);
+			cXde.setEditorOption('matchBrackets', true);
+			cXde.setEditorOption('matchTags', true);
 		} else {
 			localStorage.setItem('cXde.automatch', 'false');
-			cXde.redefineEditors('matchBrackets', false);
-			cXde.redefineEditors('matchTags', false);
+			cXde.setEditorOption('matchBrackets', false);
+			cXde.setEditorOption('matchTags', false);
 		}
 	},
 
@@ -478,12 +478,12 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-autoclose').is(':checked')) {
 			localStorage.setItem('cXde.autoclose', 'true');
-			cXde.redefineEditors('autoCloseBrackets', true);
-			cXde.redefineEditors('autoCloseTags', true);
+			cXde.setEditorOption('autoCloseBrackets', true);
+			cXde.setEditorOption('autoCloseTags', true);
 		} else {
 			localStorage.setItem('cXde.autoclose', 'false');
-			cXde.redefineEditors('autoCloseBrackets', false);
-			cXde.redefineEditors('autoCloseTags', false);
+			cXde.setEditorOption('autoCloseBrackets', false);
+			cXde.setEditorOption('autoCloseTags', false);
 		}
 	},
 
@@ -588,21 +588,16 @@ var cXde = {
 		var path = require("path").dirname(process.execPath);
 		var link = $('head').find('link:first');
 		link.attr('href', path + '/themes/' + theme + '/theme.css');
-		cXde.redefineEditors('theme', theme);
+		cXde.setEditorOption('theme', theme);
 	},
 
-	redefineEditors: function(option, value) {
+	setEditorOption: function(option, value) {
 		if(value == "true" || value == "false") {
 			value = cXde.stringToBoolean(value);
 		}
-		if ($('.CodeMirror')[0]) {
-			for (i = 0; i < 3; i++) {
-				$('.CodeMirror')[i].CodeMirror.setOption(option, value);
-			}
-			if ($('#cXde-window-phpfile').is(':visible')) {
-				$('.CodeMirror')[3].CodeMirror.setOption(option, value);
-			}
-		}
+		$('.CodeMirror').each(function() {
+			this.CodeMirror.setOption(option, value);
+		});
 	},
 
 	openPHPFile: function() {
