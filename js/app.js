@@ -25,7 +25,7 @@ var cXde = {
 
 	runApp: function(gui, win) {
 		cXde.status('Loading c&hearts;de');
-		cXde.createEditors(cXde.startServer);
+		cXde.createEditors(false, cXde.startServer);
 		cXde.createMenu(gui);
 		cXde.createHotkeys(gui, win);
 		cXde.createWindowBindings(win);
@@ -52,8 +52,16 @@ var cXde = {
 				fs.writeFile('preview/style.css', style, callback);
 			},
 			function(callback) {
-				if ($('#cXde-window-phpfile').is(':visible')) {
-					var php = $('.CodeMirror')[3].CodeMirror.getValue();
+				if ($('#cXde-window-additional').is(':visible')) {
+					var json = $('.CodeMirror')[3].CodeMirror.getValue();
+					fs.writeFile('preview/data.json', json, callback);
+				} else {
+					callback();
+				}
+			},
+			function(callback) {
+				if ($('#cXde-window-additional').is(':visible')) {
+					var php = $('.CodeMirror')[4].CodeMirror.getValue();
 					fs.writeFile('preview/server.php', php, callback);
 				} else {
 					callback();
@@ -228,31 +236,52 @@ var cXde = {
 		});
 	},
 
-	createEditors: function(callback) {
+	createEditors: function(additional, callback) {
 		var async = require('async');
-		async.parallel([
-			function(callback) {
-				cXde.createEditor($("#cXde-markup")[0], "application/x-httpd-php", function() {
-					cXde.loadFile(0, "preview/index.php", callback);
-				});
-			},
-			function(callback) {
-				cXde.createEditor($("#cXde-script")[0], "javascript", function() {
-					cXde.loadFile(1, "preview/script.js", callback);
-				});
-			},
-			function(callback) {
-				cXde.createEditor($("#cXde-style")[0], "css", function() {
-					cXde.loadFile(2, "preview/style.css", callback);
-				});
-			}
-		], function() {
-			for (i = 0; i < 3; i++) {
-				cXde.createZoom(i);
-				cXde.createKeyTimeout(i);
-			}
-			callback();
-		});
+		if (additional !== true) {
+			async.parallel([
+				function(callback) {
+					cXde.createEditor($("#cXde-markup")[0], "application/x-httpd-php", function() {
+						cXde.loadFile(0, "preview/index.php", callback);
+					});
+				},
+				function(callback) {
+					cXde.createEditor($("#cXde-script")[0], "javascript", function() {
+						cXde.loadFile(1, "preview/script.js", callback);
+					});
+				},
+				function(callback) {
+					cXde.createEditor($("#cXde-style")[0], "css", function() {
+						cXde.loadFile(2, "preview/style.css", callback);
+					});
+				}
+			], function() {
+				for (i = 0; i < 3; i++) {
+					cXde.createZoom(i);
+					cXde.createKeyTimeout(i);
+				}
+				callback();
+			});
+		} else {
+			async.parallel([
+				function(callback) {
+					cXde.createEditor($("#cXde-json")[0], "application/ld+json", function() {
+						cXde.loadFile(3, "preview/data.json", callback);
+					});
+				},
+				function(callback) {
+					cXde.createEditor($("#cXde-php")[0], "php", function() {
+						cXde.loadFile(4, "preview/server.php", callback);
+					});
+				}
+			], function() {
+				for (i = 3; i < 5; i++) {
+					cXde.createZoom(i);
+					cXde.createKeyTimeout(i);
+				}
+				callback();
+			});
+		}
 	},
 
 	createZoom: function(i) {
@@ -287,8 +316,8 @@ var cXde = {
 	},
 
 	createToolBindings: function(gui, win) {
-		$("#cXde-tool-addphp").on('click', function(e) {
-			cXde.openPHPFile();
+		$("#cXde-tool-additional").on('click', function(e) {
+			cXde.openAdditional();
 		});
 		$("#cXde-tool-devtools").on('click', function(e) {
 			cXde.openDevTools(win);
@@ -600,39 +629,32 @@ var cXde = {
 		});
 	},
 
-	openPHPFile: function() {
-		if ($('#cXde-window-phpfile').length == false) {
-			$("#cXde-layout").append('<div id="cXde-window-phpfile" class="easyui-window"></div>');
+	openAdditional: function() {
+		if ($('#cXde-window-additional').length == false) {
+			$("#cXde-layout").append('<div id="cXde-window-additional" class="easyui-window"></div>');
 		}
-		$('#cXde-window-phpfile').window({
-			title: 'PHP',
+		$('#cXde-window-additional').window({
+			title: 'Additional Files',
 			width: 600,
 			height: 300,
 			closed: false,
 			modal: false,
-			href: 'html/phpfile.html',
+			href: 'html/additional.html',
 			resizable: true,
 			maximizable: true,
 			minimizable: false,
 			collapsible: true,
 			inline: true,
 			onLoad: function(data) {
-				cXde.createEditor($("#cXde-php")[0], "php", function() {
-					cXde.loadFile(3, "preview/server.php", function() {
-						cXde.runCode();
-					});
-				});
-				cXde.createZoom(3);
-				cXde.createKeyTimeout(3);
+				cXde.createEditors(true, cXde.runCode);
 			},
 			onResize: function() {
-				if ($('.CodeMirror')[3]) {
-					$('.CodeMirror')[3].CodeMirror.refresh();
-				}
+				cXde.refreshEditors();
 			},
 			beforeClose: function() {
 				cXde.runCode();
 				$(".CodeMirror:eq(3)").unbind();
+				$(".CodeMirror:eq(4)").unbind();
 			}
 		});
 	},
