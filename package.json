@@ -5,7 +5,8 @@
 	"dependencies": {
 		"express": "4.*.*",
 		"async": "1.2.*",
-		"codemirror": "5.*.*"
+		"codemirror": "5.*.*",
+		"easyui": "1.4.*"
 	},
 	"repository": {
 		"type": "git",
