@@ -4,7 +4,8 @@
 	"version": "0.0.1",
 	"dependencies": {
 		"express": "4.*.*",
-		"async": "1.2.*"
+		"async": "1.2.*",
+		"codemirror": "5.*.*"
 	},
 	"repository": {
 		"type": "git",
