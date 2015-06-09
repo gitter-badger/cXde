@@ -118,7 +118,7 @@ var cXde = {
 	loadResult: function() {
 		var host = localStorage.getItem('cXde.host');
 		var port = localStorage.getItem('cXde.currentport');
-		var iframe = document.getElementById("cXde-preview");
+		var iframe = $("#cXde-preview")[0];
 		if(iframe.contentWindow.location.href.match('^https?://' + host + '(/|:' +  port + '/)$')) {
 			iframe.contentDocument.location.reload(true);
 		} else {
@@ -370,7 +370,7 @@ var cXde = {
 			cXde.openAdditional();
 		});
 		$("#cXde-tool-print").on('click', function(e) {
-			document.getElementById("cXde-preview").contentWindow.print();
+			$("#cXde-preview")[0].contentWindow.print();
 		});
 		$("#cXde-tool-devtools").on('click', function(e) {
 			cXde.openDevTools();
@@ -388,7 +388,7 @@ var cXde = {
 
 	createGeneralBindings: function() {
 		$("#cXde-preview").on('load', function() {
-			var title = document.getElementById("cXde-preview").contentDocument.title;
+			var title = $("#cXde-preview")[0].contentDocument.title;
 			if (title == "") {
 				title = "Untitled";
 			}
