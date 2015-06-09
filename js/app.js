@@ -369,6 +369,9 @@ var cXde = {
 		$("#cXde-tool-additional").on('click', function(e) {
 			cXde.openAdditional();
 		});
+		$("#cXde-tool-print").on('click', function(e) {
+			document.getElementById("cXde-preview").contentWindow.print();
+		});
 		$("#cXde-tool-devtools").on('click', function(e) {
 			cXde.openDevTools();
 		});
