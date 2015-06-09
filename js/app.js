@@ -112,16 +112,17 @@ var cXde = {
 					callback();
 				}
 			}
-		], cXde.navigate);
+		], cXde.loadResult);
 	},
 
-	navigate: function() {
-		var url = 'http://' + localStorage.getItem('cXde.host') + ':' + localStorage.getItem('cXde.currentport');
-		var iframe = $("#cXde-preview");
-		if(iframe.attr('src').match('^' + url)) {
-			document.getElementById("cXde-preview").contentDocument.location.reload(true);
+	loadResult: function() {
+		var host = localStorage.getItem('cXde.host');
+		var port = localStorage.getItem('cXde.currentport');
+		var iframe = document.getElementById("cXde-preview");
+		if(iframe.contentWindow.location.href.match('^https?://' + host + '(/|:' +  port + '/)$')) {
+			iframe.contentDocument.location.reload(true);
 		} else {
-			iframe.attr('src', url);
+			$("#cXde-preview").attr('src', 'http://' + host + ':' + port + '/');
 		}
 	},
 

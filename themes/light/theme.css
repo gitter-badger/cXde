@@ -2773,7 +2773,7 @@ div.cm-s-light .CodeMirror-cursor { border-left: 2px solid #222; }
 
 .cm-s-light .cm-operator { color: #cda869; }
 .cm-s-light .cm-comment { color:#777; font-weight:normal; }
-.cm-s-light .cm-string { color:#07a; font-style:italic; }
+.cm-s-light .cm-string { color:#07a; }
 .cm-s-light .cm-string-2 { color:#bd6b18; } /*?*/
 .cm-s-light .cm-meta { color: #000; } /*?*/
 .cm-s-light .cm-builtin { color: #9B7536; } /*?*/

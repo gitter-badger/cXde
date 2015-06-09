@@ -45,7 +45,7 @@ body, html {
 }
 
 .cXde-header .panel-title {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .panel-tool {
@@ -79,7 +79,7 @@ body, html {
 }
 
 #cXde-credits {
-    font-size: 16px;
+    font-size: 14px;
     width: 100%;
     text-align: center;
     padding: 10px;
@@ -120,8 +120,8 @@ body, html {
 
 .CodeMirror {
     height: auto;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.6;
     font-family: sourcecodepro;
 }
 
