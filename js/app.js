@@ -1,8 +1,54 @@
+global.window = window;
+global.navigator = window.navigator;
+global.getComputedStyle = window.getComputedStyle;
+global.document = document;
+global.JSHINT = JSHINT;
+global.CSSLint = CSSLint;
+
+var gui = require('nw.gui');
+var win = gui.Window.get();
+var http = require('http');
+var fs = require('fs');
+var os = require('os').platform();
+var path = require("path").dirname(process.execPath);
+var async = require('async');		
+var express = require('express');
+var php = require('./js/php');
+
+require('codemirror/addon/dialog/dialog');
+require('codemirror/addon/display/placeholder');
+require('codemirror/addon/edit/matchbrackets');
+require('codemirror/addon/edit/closebrackets');
+require('codemirror/addon/edit/matchtags');
+require('codemirror/addon/edit/closetag');
+require('codemirror/addon/fold/foldcode');
+require('codemirror/addon/fold/foldgutter');
+require('codemirror/addon/fold/brace-fold');
+require('codemirror/addon/fold/xml-fold');
+require('codemirror/addon/fold/comment-fold');
+require('codemirror/addon/lint/lint');
+require('codemirror/addon/lint/javascript-lint');
+require('codemirror/addon/lint/css-lint');
+require('codemirror/addon/search/searchcursor');
+require('codemirror/addon/search/search');
+require('codemirror/addon/search/matchesonscrollbar');
+require('codemirror/addon/scroll/annotatescrollbar');
+require('codemirror/addon/scroll/simplescrollbars');
+require('codemirror/addon/selection/active-line');
+require('codemirror/keymap/sublime');
+require('codemirror/keymap/emacs');
+require('codemirror/keymap/vim');
+require('codemirror/mode/htmlmixed/htmlmixed');
+require('codemirror/mode/xml/xml');
+require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/css/css');
+require('codemirror/mode/clike/clike');
+require('codemirror/mode/php/php');
+var CodeMirror = require('codemirror/lib/codemirror');
+
 var cXde = {
 
 	initApp: function() {
-		var gui = require('nw.gui');
-		var win = gui.Window.get();
 		window.keyTimeout = null;
 		window.resizeTimeout = null;
 		cXde.setPHPSetting(localStorage.getItem('cXde.php'));
@@ -18,26 +64,25 @@ var cXde = {
 		cXde.setAutoMatchSetting(localStorage.getItem('cXde.automatch'));
 		cXde.setAutoCloseSetting(localStorage.getItem('cXde.autoclose'));
 		cXde.setIOjsSetting(localStorage.getItem('cXde.iojs'));
-		cXde.createUI(gui, win, function() {
-			cXde.runApp(gui, win);
+		cXde.createUI(function() {
+			cXde.runApp();
 		});
 	},
 
-	runApp: function(gui, win) {
+	runApp: function() {
 		cXde.status('Loading c&hearts;de');
 		cXde.createEditors(false, cXde.startServer);
-		cXde.createMenu(gui);
-		cXde.createHotkeys(gui, win);
-		cXde.createWindowBindings(win);
-		cXde.createToolBindings(gui, win);
+		cXde.createMenu();
+		cXde.createHotkeys();
+		cXde.createWindowBindings();
+		cXde.createToolBindings();
 		cXde.createResizeTimeout();
 		cXde.createGeneralBindings();
 		win.maximize();
 	},
 
 	runCode: function() {
-		var async = require('async');
-		var fs = require('fs');
+		$("#cXde-tool-restart").addClass('spin');
 		async.parallel([
 			function(callback) {
 				var markup = $('.CodeMirror')[0].CodeMirror.getValue();
@@ -67,15 +112,20 @@ var cXde = {
 					callback();
 				}
 			}
-		], function() {
-			$("#cXde-preview").attr('src', 'http://' + localStorage.getItem('cXde.host') + ':' + localStorage.getItem('cXde.currentport'));
-		});
+		], cXde.navigate);
+	},
+
+	navigate: function() {
+		var url = 'http://' + localStorage.getItem('cXde.host') + ':' + localStorage.getItem('cXde.currentport');
+		var iframe = $("#cXde-preview");
+		if(iframe.attr('src').match('^' + url)) {
+			document.getElementById("cXde-preview").contentDocument.location.reload(true);
+		} else {
+			iframe.attr('src', url);
+		}
 	},
 
 	startServer: function() {
-		var http = require('http');
-		var php = require('./js/php');
-		var express = require('express');
 		var app = express();
 		var server = http.createServer(app);
 		var bin = localStorage.getItem('cXde.php');
@@ -151,7 +201,7 @@ var cXde = {
 		}
 	},
 
-	createMenu: function(gui) {
+	createMenu: function() {
 		$(document).on("contextmenu", function(e) {
 			e.preventDefault();
 			menu.popup(e.originalEvent.x, e.originalEvent.y);
@@ -181,7 +231,7 @@ var cXde = {
 		return menu;
 	},
 
-	createHotkeys: function(gui, win) {
+	createHotkeys: function() {
 		var fullscreen = new gui.Shortcut({
 			key: "F11",
 			active: function() {
@@ -195,7 +245,7 @@ var cXde = {
 			key: "F12",
 			active: function() {
 				if (document.hasFocus()) {
-					cXde.openDevTools(win);
+					cXde.openDevTools();
 				}
 			}
 		});
@@ -237,7 +287,6 @@ var cXde = {
 	},
 
 	createEditors: function(additional, callback) {
-		var async = require('async');
 		if (additional !== true) {
 			async.parallel([
 				function(callback) {
@@ -315,15 +364,15 @@ var cXde = {
 		});
 	},
 
-	createToolBindings: function(gui, win) {
+	createToolBindings: function() {
 		$("#cXde-tool-additional").on('click', function(e) {
 			cXde.openAdditional();
 		});
 		$("#cXde-tool-devtools").on('click', function(e) {
-			cXde.openDevTools(win);
+			cXde.openDevTools();
 		});
 		$("#cXde-tool-settings").on('click', function(e) {
-			cXde.openSettings(gui);
+			cXde.openSettings();
 		});
 	},
 
@@ -340,6 +389,7 @@ var cXde = {
 				title = "Untitled";
 			}
 			$(".panel-title span").text(title);
+			$("#cXde-tool-restart").removeClass('spin');
 		});
 		$('.layout-split-proxy-h').on('mouseup', function() {
 			setTimeout(cXde.refreshEditors, 500);
@@ -349,7 +399,7 @@ var cXde = {
 		});
 	},
 
-	createWindowBindings: function(win) {
+	createWindowBindings: function() {
 		var panel = $('body').find('.panel:eq(0)');
 		panel.addClass('cXde-window');
 		var panelHeader = panel.find('.panel-header:eq(0)');
@@ -362,8 +412,6 @@ var cXde = {
 	},
 
 	setPHPSetting: function(value) {
-		var path = require("path").dirname(process.execPath);
-		var os = require('os').platform();
 		if (value == undefined || value == "") {
 			if (os == 'win32' || os == 'win64') {
 				value = path + '/bin/php/php-cgi.exe';
@@ -530,7 +578,6 @@ var cXde = {
 	},
 
 	populateSettings: function() {
-		var path = require("path").dirname(process.execPath);
 		var file = new File(localStorage.getItem('cXde.php'), 'php-cgi');
 		var files = new FileList();
 		files.append(file);
@@ -614,7 +661,6 @@ var cXde = {
 	},
 
 	changeTheme: function(theme) {
-		var path = require("path").dirname(process.execPath);
 		var link = $('head').find('link:first');
 		link.attr('href', path + '/themes/' + theme + '/theme.css');
 		cXde.setEditorOption('theme', theme);
@@ -659,7 +705,7 @@ var cXde = {
 		});
 	},
 
-	openDevTools: function(win) {
+	openDevTools: function() {
 		if ($('#cXde-window-devtools').length == false) {
 			$("#cXde-layout").append('<div id="cXde-window-devtools" class="easyui-window"></div>');
 		}
@@ -688,7 +734,7 @@ var cXde = {
 		});
 	},
 
-	openSettings: function(gui) {
+	openSettings: function() {
 		if ($('#cXde-window-settings').length == false) {
 			$("#cXde-layout").append('<div id="cXde-window-settings" class="easyui-window"></div>');
 		}
@@ -714,7 +760,7 @@ var cXde = {
 		});
 	},
 
-	createUI: function(gui, win, callback) {
+	createUI: function(callback) {
 		$('#cXde-window').panel({
 			title: 'c&hearts;de',
 			href: 'html/layout.html',
