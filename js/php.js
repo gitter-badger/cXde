@@ -7,9 +7,9 @@ var fs = require("fs");
 function runPHP(req, response, next, phpinfo) {
     var parts = url.parse(req.url);
     var query = parts.query;
-    var file = path.join("./preview", parts.pathname);
+    var file = path.join("./result", parts.pathname);
     if (!fs.existsSync(file)) {
-        file = path.join("./preview", "index.php");
+        file = path.join("./result", "index.php");
     } else if (fs.statSync(file).isDirectory()) {
         file = path.join(file, "index.php");
     }
@@ -22,7 +22,7 @@ function runPHP(req, response, next, phpinfo) {
     }
     var env = {
         SERVER_SIGNATURE: "cXde",
-        PATH_INFO: process.cwd()+"/preview", //The extra path information, as given in the requested URL. In fact, scripts can be accessed by their virtual path, followed by extra information at the end of this path. The extra information is sent in PATH_INFO.
+        PATH_INFO: process.cwd()+"/result", //The extra path information, as given in the requested URL. In fact, scripts can be accessed by their virtual path, followed by extra information at the end of this path. The extra information is sent in PATH_INFO.
         PATH_TRANSLATED: "", //The virtual-to-real mapped version of PATH_INFO.
         SCRIPT_NAME: parts.pathname, //The virtual path of the script being executed.
         SCRIPT_FILENAME: file,

@@ -86,20 +86,20 @@ var cXde = {
 		async.parallel([
 			function(callback) {
 				var markup = $('.CodeMirror')[0].CodeMirror.getValue();
-				fs.writeFile('preview/index.php', markup, callback);
+				fs.writeFile('result/index.php', markup, callback);
 			},
 			function(callback) {
 				var script = $('.CodeMirror')[1].CodeMirror.getValue();
-				fs.writeFile('preview/script.js', script, callback);
+				fs.writeFile('result/script.js', script, callback);
 			},
 			function(callback) {
 				var style = $('.CodeMirror')[2].CodeMirror.getValue();
-				fs.writeFile('preview/style.css', style, callback);
+				fs.writeFile('result/style.css', style, callback);
 			},
 			function(callback) {
 				if ($('#cXde-window-additional').is(':visible')) {
 					var json = $('.CodeMirror')[3].CodeMirror.getValue();
-					fs.writeFile('preview/data.json', json, callback);
+					fs.writeFile('result/data.json', json, callback);
 				} else {
 					callback();
 				}
@@ -107,7 +107,7 @@ var cXde = {
 			function(callback) {
 				if ($('#cXde-window-additional').is(':visible')) {
 					var php = $('.CodeMirror')[4].CodeMirror.getValue();
-					fs.writeFile('preview/server.php', php, callback);
+					fs.writeFile('result/server.php', php, callback);
 				} else {
 					callback();
 				}
@@ -118,11 +118,11 @@ var cXde = {
 	loadResult: function() {
 		var host = localStorage.getItem('cXde.host');
 		var port = localStorage.getItem('cXde.currentport');
-		var iframe = $("#cXde-preview")[0];
+		var iframe = $("#cXde-result")[0];
 		if(iframe.contentWindow.location.href.match('^https?://' + host + '(/|:' +  port + '/)$')) {
 			iframe.contentDocument.location.reload(true);
 		} else {
-			$("#cXde-preview").attr('src', 'http://' + host + ':' + port + '/');
+			$("#cXde-result").attr('src', 'http://' + host + ':' + port + '/');
 		}
 	},
 
@@ -292,17 +292,17 @@ var cXde = {
 			async.parallel([
 				function(callback) {
 					cXde.createEditor($("#cXde-markup")[0], "application/x-httpd-php", function() {
-						cXde.loadFile(0, "preview/index.php", callback);
+						cXde.loadFile(0, "result/index.php", callback);
 					});
 				},
 				function(callback) {
 					cXde.createEditor($("#cXde-script")[0], "javascript", function() {
-						cXde.loadFile(1, "preview/script.js", callback);
+						cXde.loadFile(1, "result/script.js", callback);
 					});
 				},
 				function(callback) {
 					cXde.createEditor($("#cXde-style")[0], "css", function() {
-						cXde.loadFile(2, "preview/style.css", callback);
+						cXde.loadFile(2, "result/style.css", callback);
 					});
 				}
 			], function() {
@@ -316,12 +316,12 @@ var cXde = {
 			async.parallel([
 				function(callback) {
 					cXde.createEditor($("#cXde-json")[0], "application/ld+json", function() {
-						cXde.loadFile(3, "preview/data.json", callback);
+						cXde.loadFile(3, "result/data.json", callback);
 					});
 				},
 				function(callback) {
 					cXde.createEditor($("#cXde-php")[0], "php", function() {
-						cXde.loadFile(4, "preview/server.php", callback);
+						cXde.loadFile(4, "result/server.php", callback);
 					});
 				}
 			], function() {
@@ -370,7 +370,7 @@ var cXde = {
 			cXde.openAdditional();
 		});
 		$("#cXde-tool-print").on('click', function(e) {
-			$("#cXde-preview")[0].contentWindow.print();
+			$("#cXde-result")[0].contentWindow.print();
 		});
 		$("#cXde-tool-devtools").on('click', function(e) {
 			cXde.openDevTools();
@@ -387,8 +387,8 @@ var cXde = {
 	},
 
 	createGeneralBindings: function() {
-		$("#cXde-preview").on('load', function() {
-			var title = $("#cXde-preview")[0].contentDocument.title;
+		$("#cXde-result").on('load', function() {
+			var title = $("#cXde-result")[0].contentDocument.title;
 			if (title == "") {
 				title = "Untitled";
 			}
@@ -574,10 +574,10 @@ var cXde = {
 		}
 		if (value == "true" || $('#cXde-setting-iojs').is(':checked')) {
 			localStorage.setItem('cXde.iojs', 'true');
-			$('#cXde-preview').removeAttr('nwdisable');
+			$('#cXde-result').removeAttr('nwdisable');
 		} else {
 			localStorage.setItem('cXde.iojs', 'false');
-			$('#cXde-preview').attr('nwdisable', '');
+			$('#cXde-result').attr('nwdisable', '');
 		}
 	},
 
@@ -726,7 +726,7 @@ var cXde = {
 			collapsible: true,
 			inline: true,
 			onLoad: function(data) {
-				win.showDevTools("cXde-preview", true);
+				win.showDevTools("cXde-result", true);
 				win.on("devtools-opened", function(url) {
 					$('#cXde-devtools').attr('src', url);
 					win.closeDevTools();
