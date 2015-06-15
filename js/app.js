@@ -387,6 +387,9 @@ var cXde = {
 	},
 
 	createGeneralBindings: function() {
+		win.on('new-win-policy', function (frame, url, policy) {
+			policy.setNewWindowManifest({"toolbar": false, "frame" : true, "transparent": false})
+		});
 		$("#cXde-result").on('load', function() {
 			var title = $("#cXde-result")[0].contentDocument.title;
 			if (title == "") {
