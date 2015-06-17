@@ -1,5 +1,7 @@
 # c♥de
 ### Introduction
+
+[![Join the chat at https://gitter.im/baconface/cXde](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/baconface/cXde?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 c♥de is my handy dandy code prototyping tool thingy for web development. I have created it for my own means to test in languages I typically play with. However I think it can be a great tool to help others prototype and learn to code. Write your code and see your results in realtime. It doesn't need much more explaining than that. But I am going to talk a little more about it anyways.
 
 When you fire up c♥de you should see a screen that kind of reminds you of [JSFiddle](http://jsfiddle.net/) and [Codepen](http://codepen.io/). Those sites are awesome but something completely different is happening behind the scenes here. A local development server is deployed running PHP. Not only can you code HTML, JavaScript, and CSS but you can use PHP as well.
